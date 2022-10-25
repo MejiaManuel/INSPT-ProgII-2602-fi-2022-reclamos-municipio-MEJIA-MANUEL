@@ -16,6 +16,10 @@ public class Reclamo {
 
     public Reclamo() {
     }
+    
+    public static Reclamo getInstance(){
+        return new Reclamo();
+    }
 
     public Reclamo( int id, String descripcion) {
         this.descripcion = descripcion;
