@@ -22,15 +22,20 @@ public class ReclamosServlet extends HttpServlet {
 
    private Modelo model;
    private final String URI_LIST = "/pages/vistaReclamos.jsp";
-   
-   @Override
-    public void init() throws ServletException {
-        this.model = new Modelo();
-    }
+   HttpServletRequest request;
+       HttpServletResponse response;
     
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
+            this.request = request;
+            this.response = response;
+            String ip = request.getParameter("dirIP");
+            String bd = request.getParameter("nomBD");
+            Modelo m = new Modelo(ip, bd);
+            m.getReclamos();
+
         
         request.setAttribute("listaReclamos", model.getReclamos());
         
@@ -63,4 +68,6 @@ public class ReclamosServlet extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
+    
+    
 }
