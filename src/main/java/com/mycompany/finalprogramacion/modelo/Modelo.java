@@ -30,7 +30,6 @@ public class Modelo {
     private static Modelo m;
 
     //informacion
-    ArrayList<Reclamo> resultadoReclamos;
     //Busquedas
     private ActionListener listener;
        
@@ -63,36 +62,39 @@ public class Modelo {
  
     public List<Reclamo> getReclamos()
     { 
-        
-         List<Reclamo> lista;
-         lista = new ArrayList<>();
+       
+        List<Reclamo> lista;
+        lista = new ArrayList<>();
        
         try{
             con = DriverManager.getConnection(urlRoot + dbName, "root", "root");
             stmt = con.createStatement();
-            rs = stmt.executeQuery("SELECT * FROM reclamos");
+            rs = stmt.executeQuery("SELECT idReclamo, descripcion FROM reclamos;");
+            ResultSet rs = stmt.getResultSet();
             while (rs.next()){
                 
                 int id = rs.getByte(1);
                 String desc = rs.getString(2);
-                
+                System.out.println("PIJA 2");
                 lista.add(new Reclamo(id,desc));
                 
             }
         }catch(SQLException e){
             System.out.println(e + "El error fue en modelo");
         }
-    
-    
- /*
-    lista.add(new Reclamo(1,"arbol caido"));
+ 
+    /*lista.add(new Reclamo(1,"arbol caido"));
     lista.add(new Reclamo(2,"arbol ilegal"));
     lista.add(new Reclamo(3,"auto abandonado"));
     lista.add(new Reclamo(4,"Cambio de baldosas"));
     lista.add(new Reclamo(5,"mi vecino es molesto"));
-    */
+        System.out.println("PIJA 1");*/
+            
+        System.out.println(lista);
+    
     
     return lista;
+        
     }
 
 

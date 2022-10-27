@@ -12,6 +12,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.HashSet;
 
 /**
  *
@@ -20,10 +21,10 @@ import jakarta.servlet.http.HttpServletResponse;
 @WebServlet(name = "ReclamosServlet", urlPatterns = {"/reclamos"})
 public class ReclamosServlet extends HttpServlet {
 
-   private Modelo model;
    private final String URI_LIST = "/pages/vistaReclamos.jsp";
-   HttpServletRequest request;
-       HttpServletResponse response;
+        HttpServletRequest request;
+        HttpServletResponse response;
+                
     
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -35,9 +36,13 @@ public class ReclamosServlet extends HttpServlet {
             String bd = request.getParameter("nomBD");
             Modelo m = new Modelo(ip, bd);
             m.getReclamos();
+            
+        
 
         
-        request.setAttribute("listaReclamos", model.getReclamos());
+        request.setAttribute("listaReclamos", m.getReclamos());
+        
+        
         
         request.getRequestDispatcher(URI_LIST).forward(request, response);
         
