@@ -34,7 +34,7 @@ public class ReclamosServlet extends HttpServlet {
             this.response = response;
             String ip = new String("localhost:3306"); 
             // request.getParameter("dirIP");
-            String bd = new String("reclamos");
+            String bd = new String("tabla");
             //request.getParameter("nomBD");
             Modelo m = new Modelo(ip, bd);
             
