@@ -24,7 +24,7 @@ public class Modelo {
     ResultSet rs = null;
     Statement stmt = null;
 
-    private String jdbcDriver;
+    private static String jdbcDriver = "com.mysql.cj.jdbc.Driver";
     private String dbName;
     private String urlRoot;
     private static Modelo m;
@@ -34,8 +34,7 @@ public class Modelo {
     private ActionListener listener;
        
     public Modelo(String url, String dbName) {
-        jdbcDriver = "com.mysql.cj.jdbc.Driver";
-        urlRoot = "jdbc:mysql://" + url + "/";
+        urlRoot = getRootUrl(url);
         this.dbName = dbName;
         listener = null;
 
@@ -46,7 +45,11 @@ public class Modelo {
             reportException(e.getMessage());
         }
     }
-
+    
+    private static String getRootUrl(String url) {
+        return "jdbc:mysql://" + url + "/";
+    }
+    
     public static Modelo getInstance(String url, String dbName) {
         if (m == null) {
             m = new Modelo(url, dbName);
@@ -58,13 +61,10 @@ public class Modelo {
         return m;
     }
     
-    
- 
     public List<Reclamo> getReclamos()
     { 
         Reclamo rec;
-        List<Reclamo> lista;
-        lista = new ArrayList<>();
+        List<Reclamo> lista = new ArrayList<>();
        
         try{
             con = DriverManager.getConnection(urlRoot + dbName + "?useSSL=false", "root", "root");
@@ -72,24 +72,13 @@ public class Modelo {
             rs = stmt.executeQuery("SELECT * FROM recla");
             
             while (rs.next()){
-                rec = new Reclamo(rs.getInt("idReclamo"), rs.getString("descripcion"));
-                          
-                lista.add(rec);
-                
+                lista.add(new Reclamo(rs.getInt("idReclamo"), rs.getString("descripcion")));
             }
+            
+            con.close();
         }catch(SQLException e){
             System.out.println(e);
-        }
- 
-    /*lista.add(new Reclamo(1,"arbol caido"));
-    lista.add(new Reclamo(2,"arbol ilegal"));
-    lista.add(new Reclamo(3,"auto abandonado"));
-    lista.add(new Reclamo(4,"Cambio de baldosas"));
-    lista.add(new Reclamo(5,"mi vecino es molesto"));
-        System.out.println("PIJA 1");*/
-            
-        System.out.println(lista);
-    
+        }  
     
     return lista;
         
