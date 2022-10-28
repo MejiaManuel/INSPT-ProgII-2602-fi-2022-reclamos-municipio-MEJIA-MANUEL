@@ -32,10 +32,12 @@ public class ReclamosServlet extends HttpServlet {
         
             this.request = request;
             this.response = response;
-            String ip = request.getParameter("dirIP");
-            String bd = request.getParameter("nomBD");
+            String ip = new String("localhost:3306"); 
+            // request.getParameter("dirIP");
+            String bd = new String("reclamos");
+            //request.getParameter("nomBD");
             Modelo m = new Modelo(ip, bd);
-            m.getReclamos();
+            
             
         
 

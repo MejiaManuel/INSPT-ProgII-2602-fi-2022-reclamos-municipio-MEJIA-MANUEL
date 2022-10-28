@@ -62,25 +62,23 @@ public class Modelo {
  
     public List<Reclamo> getReclamos()
     { 
-       
+        Reclamo rec;
         List<Reclamo> lista;
         lista = new ArrayList<>();
        
         try{
-            con = DriverManager.getConnection(urlRoot + dbName, "root", "root");
+            con = DriverManager.getConnection(urlRoot + dbName + "?useSSL=false", "root", "root");
             stmt = con.createStatement();
-            rs = stmt.executeQuery("SELECT idReclamo, descripcion FROM reclamos;");
-            ResultSet rs = stmt.getResultSet();
+            rs = stmt.executeQuery("SELECT * FROM recla");
+            
             while (rs.next()){
-                
-                int id = rs.getByte(1);
-                String desc = rs.getString(2);
-                System.out.println("PIJA 2");
-                lista.add(new Reclamo(id,desc));
+                rec = new Reclamo(rs.getInt("idReclamo"), rs.getString("descripcion"));
+                          
+                lista.add(rec);
                 
             }
         }catch(SQLException e){
-            System.out.println(e + "El error fue en modelo");
+            System.out.println(e);
         }
  
     /*lista.add(new Reclamo(1,"arbol caido"));
