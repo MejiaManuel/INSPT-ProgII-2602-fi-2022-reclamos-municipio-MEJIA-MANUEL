@@ -4,6 +4,10 @@
  */
 package com.mycompany.finalprogramacion.modelo;
 
+import java.util.Date;
+
+
+
 /**
  *Tendrán un ID único, la fecha en que se creó y la fecha en que se resolvió (esta
 última puede no existir si aún no se ha resuelto), la categoría (alumbrado, arbolado, limpieza,
@@ -12,7 +16,22 @@ pluvial) y el domicilio del inmueble sobre afectado.
 public class Reclamo {
     
     private String descripcion;
+    private Categorias categoria;
+    private String domicilio;
+
+    public Categorias getCategoria() {
+        return categoria;
+    }
+
+    public String getDomicilio() {
+        return domicilio;
+    }
+
+    public Date getFecha() {
+        return fecha;
+    }
     private int id;
+    private Date fecha;
 
     public Reclamo() {
     }

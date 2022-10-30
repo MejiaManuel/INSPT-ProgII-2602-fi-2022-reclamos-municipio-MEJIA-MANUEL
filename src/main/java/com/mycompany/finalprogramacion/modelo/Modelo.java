@@ -61,9 +61,63 @@ public class Modelo {
         return m;
     }
     
+    public Boolean login(String nomb, String pass){
+    
+        Boolean respuesta = false;
+        
+    try{
+            con = DriverManager.getConnection(urlRoot + dbName + "?useSSL=false", "root", "root");
+            stmt = con.createStatement();
+            rs = stmt.executeQuery("SELECT * FROM usu");
+            
+            while (rs.next()){
+                
+                if ( rs.getString("usuario").equals(nomb) && rs.getString("clave").equals(pass)){
+                    respuesta = true;
+                }
+                
+            }
+            
+            con.close();
+        }catch(SQLException e){
+            System.out.println(e);
+        }  
+        
+        return respuesta;
+    }
+    
+    public Usuario getUsuario(String nomb){
+        
+        Usuario respuesta;
+        int id = 0;
+        String clave = "";
+        Boolean admin = false;
+
+        try{
+            con = DriverManager.getConnection(urlRoot + dbName + "?useSSL=false", "root", "root");
+            stmt = con.createStatement();
+            rs = stmt.executeQuery("SELECT * FROM usu");
+            
+            id = rs.getInt("idUsuario");
+            clave = rs.getString("clave");
+            admin = rs.getBoolean("admin");
+            
+            
+            con.close();
+        }catch(SQLException e){
+            System.out.println(e);
+        }  
+        
+        respuesta = new Usuario(id,nomb,clave,admin);
+                
+        return respuesta;
+        
+       
+    }
+     
+    
     public List<Reclamo> getReclamos()
     { 
-        Reclamo rec;
         List<Reclamo> lista = new ArrayList<>();
        
         try{
@@ -72,7 +126,9 @@ public class Modelo {
             rs = stmt.executeQuery("SELECT * FROM recla");
             
             while (rs.next()){
+                
                 lista.add(new Reclamo(rs.getInt("idReclamo"), rs.getString("descripcion")));
+                
             }
             
             con.close();
