@@ -8,26 +8,24 @@ package com.mycompany.finalprogramacion.modelo;
  *
  * @author Manu
  */
-public class Usuario {
+public abstract class Usuario {
     
     private int id;
-    private String nomb;
-    private String clave;
-    private Boolean admin;
+    private final String nomb;
+    private final String clave;
 
-    public Usuario(int id, String nomb, String clave, Boolean admin) {
+
+    public Usuario(int id, String nomb, String clave) {
         this.id = id;
         this.nomb = nomb;
         this.clave = clave;
-        this.admin = admin;
     }
 
     public Usuario(String nomb, String clave) {
         this.nomb = nomb;
         this.clave = clave;
     }
-
-    
+ 
 
     public int getId() {
         return id;
@@ -41,25 +39,8 @@ public class Usuario {
         return clave;
     }
 
-    public Boolean getAdmin() {
-        return admin;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public void setNomb(String nomb) {
-        this.nomb = nomb;
-    }
-
-    public void setClave(String clave) {
-        this.clave = clave;
-    }
-
-    public void setAdmin(Boolean admin) {
-        this.admin = admin;
-    }
+    public abstract String getVista();
     
-    
-}
+    }
+
+

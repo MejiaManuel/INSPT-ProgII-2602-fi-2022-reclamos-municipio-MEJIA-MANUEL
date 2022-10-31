@@ -1,19 +1,16 @@
-<%-- 
-    Document   : inicioSecion
-    Created on : 28 oct. 2022, 14:52:56
-    Author     : Manu
---%>
-
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Inicio Sesion</title>
-    </head>
-    <body>
-        <h1>Inicio Sesion</h1>
-        <form name="form1" action="/reclamos/all" method="post" >
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+</head>
+<body>
+   
+    
+    <h3>Inicio Sesion</h3>
+        <form name="form1" action="/Finalprog2/Parcial2" method="post" >
             <label for="user">Usuario:</label> <br>
             <input type="text" id="user" name="user">
             <br/><br/>
@@ -23,5 +20,6 @@
             <input type="submit">
             <input type="reset">
         </form>
-    </body>
+    
+</body>
 </html>

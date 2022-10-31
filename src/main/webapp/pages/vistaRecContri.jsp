@@ -19,7 +19,8 @@
       </style>
     </head>
     <body>
-        <h1>Lista de todos los Reclamos</h1>
+
+        <h1>Lista Reclamos de ${user}</h1>
       <table>
         <tr>
           <th>Fecha de creación</th>
@@ -27,7 +28,6 @@
     			<th>Domicilio</th>
         </tr>
 
-        
         <c:forEach items="${listaReclamos}" var="reclamo" >
           <tr>
            <th> ${reclamo.fecha} </th>

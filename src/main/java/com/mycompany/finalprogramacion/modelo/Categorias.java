@@ -4,6 +4,9 @@
  */
 package com.mycompany.finalprogramacion.modelo;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  *
  * @author Manu
@@ -14,5 +17,8 @@ public enum Categorias {
      ARBOLADO,
      LIMPIEZA,
      PLUBIAL;
-    
+
+     
+
+
 }

@@ -4,6 +4,9 @@
  */
 package com.mycompany.finalprogramacion;
 
+import com.mycompany.finalprogramacion.modelo.Modelo;
+import com.mycompany.finalprogramacion.modelo.Usuario;
+import jakarta.servlet.RequestDispatcher;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -11,30 +14,41 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.HashSet;
+
 
 /**
  *
- * @author Manu
+ * @author manue
  */
-@WebServlet(name = "RegistroServlet", urlPatterns = {"/usuario"})
-public class RegistroServlet extends HttpServlet {
+@WebServlet(name = "reclamoServlet", urlPatterns = {"/reclamos/all"})
+public class reclamoServlet extends HttpServlet {
 
-    
+public Usuario p;
+     
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
+   
+    }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+        processRequest(request, response);
     }
+
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-            String nombre = request.getParameter("nom");
-            String apellido = request.getParameter("ape");
-            PrintWriter out = response.getWriter();
-            out.println("<html>hola " +nombre + " " + apellido + "</html>");
-      
+        processRequest(request, response);
+
+        Modelo m = new Modelo();
+
+        request.setAttribute("listaReclamos", m.getReclamos(p));
+        request.getRequestDispatcher(p.getVista()).forward(request, response);
+
     }
 
 

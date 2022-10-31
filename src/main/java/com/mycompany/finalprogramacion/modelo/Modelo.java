@@ -23,9 +23,11 @@ public class Modelo {
     Connection con = null;
     ResultSet rs = null;
     Statement stmt = null;
+    
+    String url= "localhost:3306";
+    String dbName = "tabla";
 
-    private static String jdbcDriver = "com.mysql.cj.jdbc.Driver";
-    private String dbName;
+    private static final String jdbcDriver = "com.mysql.cj.jdbc.Driver";
     private String urlRoot;
     private static Modelo m;
 
@@ -33,9 +35,8 @@ public class Modelo {
     //Busquedas
     private ActionListener listener;
        
-    public Modelo(String url, String dbName) {
+    public Modelo() {
         urlRoot = getRootUrl(url);
-        this.dbName = dbName;
         listener = null;
 
         try {
@@ -50,9 +51,9 @@ public class Modelo {
         return "jdbc:mysql://" + url + "/";
     }
     
-    public static Modelo getInstance(String url, String dbName) {
+    public static Modelo getInstance() {
         if (m == null) {
-            m = new Modelo(url, dbName);
+            m = new Modelo();
         }
         return m;
     }
@@ -77,59 +78,94 @@ public class Modelo {
                 }
                 
             }
-            
             con.close();
         }catch(SQLException e){
             System.out.println(e);
         }  
+        
         
         return respuesta;
     }
     
     public Usuario getUsuario(String nomb){
         
-        Usuario respuesta;
+        /*
+        Roles: Contributenye = 0; Admin = 1;
+        */
+        
+        Usuario respuesta = null;
         int id = 0;
         String clave = "";
-        Boolean admin = false;
+        int rol = 0;
 
-        try{
+        try {
             con = DriverManager.getConnection(urlRoot + dbName + "?useSSL=false", "root", "root");
             stmt = con.createStatement();
-            rs = stmt.executeQuery("SELECT * FROM usu");
-            
-            id = rs.getInt("idUsuario");
-            clave = rs.getString("clave");
-            admin = rs.getBoolean("admin");
-            
-            
+            rs = stmt.executeQuery("SELECT * FROM usu WHERE usuario ='" + nomb + "'");
+
+            while (rs.next()) {
+                id = rs.getInt("idUsuario");
+                clave = rs.getString("clave");
+                rol = rs.getInt("rol");
+            }
             con.close();
-        }catch(SQLException e){
+        } catch (SQLException e) {
             System.out.println(e);
-        }  
-        
-        respuesta = new Usuario(id,nomb,clave,admin);
-                
+        }
+
+        switch (rol) {
+            case 0:
+                respuesta = new Contribuyente(id, nomb, clave);
+                break;
+            case 1:
+                respuesta = new Admin(id, nomb, clave);
+                break;
+        }
+
         return respuesta;
-        
-       
+
     }
-     
+
     
-    public List<Reclamo> getReclamos()
+    public List<Reclamo> getReclamos(Usuario p)
     { 
         List<Reclamo> lista = new ArrayList<>();
+        int rol = Integer.MAX_VALUE;
+        
        
         try{
             con = DriverManager.getConnection(urlRoot + dbName + "?useSSL=false", "root", "root");
-            stmt = con.createStatement();
-            rs = stmt.executeQuery("SELECT * FROM recla");
+            stmt = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            rs = stmt.executeQuery("SELECT * FROM usu WHERE idUsuario ='" + p.getId() + "'");
             
             while (rs.next()){
-                
-                lista.add(new Reclamo(rs.getInt("idReclamo"), rs.getString("descripcion")));
-                
+            rol = rs.getInt("rol");
             }
+            
+            rs = stmt.executeQuery("SELECT * FROM recla");
+            rs.beforeFirst();
+           
+            switch (rol) {
+                case 0:
+                    while (rs.next()) {
+                        if (p.getId() != rs.getInt("usu_idUsuario")) {
+                        } else {
+                            lista.add(new Reclamo(rs.getInt("idReclamo"), rs.getString("descripcion"), rs.getDate("fecha"),rs.getInt("categoria"),rs.getString("domicilio")));
+                        }
+                    }
+
+                    break;
+                case 1:
+                    while (rs.next()) {
+
+                        lista.add(new Reclamo(rs.getInt("idReclamo"), rs.getString("descripcion"), rs.getDate("fecha"),rs.getInt("categoria"),rs.getString("domicilio")));
+                    }
+                    break;
+                default:
+                    break;
+            }
+
+
             
             con.close();
         }catch(SQLException e){
