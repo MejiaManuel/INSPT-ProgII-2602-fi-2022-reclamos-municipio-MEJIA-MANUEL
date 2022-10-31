@@ -1,7 +1,0 @@
-idReclamo,descripcion,estado,RECLAMOcol
-1,"Arbol caido",true,NULL
-2,"arbol ilegal",false,NULL
-3,"auto abandonado",true,NULL
-4,"Cambio de baldosas",true,NULL
-5,"lo sque de mi sql",false,NULL
-6,"Lograste sacar datos de SQL",true,NULL
