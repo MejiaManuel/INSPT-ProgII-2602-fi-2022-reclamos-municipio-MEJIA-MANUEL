@@ -148,25 +148,20 @@ public class Modelo {
             switch (rol) {
                 case 0:
                     while (rs.next()) {
-                        if (p.getId() != rs.getInt("usu_idUsuario")) {
-                        } else {
-                            lista.add(new Reclamo(rs.getInt("idReclamo"), rs.getString("descripcion"), rs.getDate("fecha"),rs.getInt("categoria"),rs.getString("domicilio")));
-                        }
+                        if (p.getId() == rs.getInt("usu_idUsuario"))  
+                            lista.add(new Reclamo(rs.getInt("idReclamo"), rs.getString("descripcion"), rs.getDate("fecha"),Categorias.valueOf(rs.getString("categoria")),rs.getString("domicilio")));
                     }
 
                     break;
                 case 1:
                     while (rs.next()) {
-
-                        lista.add(new Reclamo(rs.getInt("idReclamo"), rs.getString("descripcion"), rs.getDate("fecha"),rs.getInt("categoria"),rs.getString("domicilio")));
+                        lista.add(new Reclamo(rs.getInt("idReclamo"), rs.getString("descripcion"), rs.getDate("fecha"),Categorias.valueOf(rs.getString("categoria")),rs.getString("domicilio")));
                     }
                     break;
                 default:
                     break;
             }
 
-
-            
             con.close();
         }catch(SQLException e){
             System.out.println(e);

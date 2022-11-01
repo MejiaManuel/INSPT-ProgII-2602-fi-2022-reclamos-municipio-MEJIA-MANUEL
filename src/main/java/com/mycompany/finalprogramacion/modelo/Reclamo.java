@@ -4,7 +4,8 @@
  */
 package com.mycompany.finalprogramacion.modelo;
 
-import java.util.Date;
+import java.sql.Date;
+
 
 /**
  * Tendrán un ID único, la fecha en que se creó y la fecha en que se resolvió
@@ -20,34 +21,16 @@ public class Reclamo {
     private Categorias categoria;
     private String domicilio;
 
-    public Reclamo(int id, String descripcion, Date fecha, int cate, String domicilio) {
+    public Reclamo(int id, String descripcion, Date fecha, Categorias categoria, String domicilio) {
         this.id = id;
         this.descripcion = descripcion;
         this.fecha = fecha;
         this.domicilio = domicilio;
-        setCategoria(cate);
+        this.categoria = categoria;    
+    
     }
 
-    private void setCategoria(int i) {
-
-        switch (i) {
-            case 0:
-                categoria = Categorias.ALUMBRADO;
-                break;
-            case 1:
-                categoria = Categorias.ARBOLADO;
-                break;
-            case 2:
-                categoria = Categorias.LIMPIEZA;
-                break;
-            case 3:
-                categoria = Categorias.PLUBIAL;
-                break;
-            default:
-                categoria = null;
-        }
-
-    }
+  
 
     
     public Categorias getCategoria() {

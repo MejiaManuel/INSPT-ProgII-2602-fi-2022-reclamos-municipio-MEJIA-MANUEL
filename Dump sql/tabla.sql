@@ -26,7 +26,7 @@ CREATE TABLE `recla` (
   `idReclamo` int NOT NULL,
   `descripcion` text NOT NULL,
   `fecha` date NOT NULL,
-  `categoria` int NOT NULL,
+  `categoria` text NOT NULL,
   `domicilio` longtext NOT NULL,
   `usu_idUsuario` int NOT NULL,
   PRIMARY KEY (`idReclamo`),
@@ -41,8 +41,34 @@ CREATE TABLE `recla` (
 
 LOCK TABLES `recla` WRITE;
 /*!40000 ALTER TABLE `recla` DISABLE KEYS */;
-INSERT INTO `recla` VALUES (1,'Arbol caido','1996-07-07',1,'algo 123',1),(2,'arbol ilegal','2010-04-13',1,'algo 1234',3),(3,'auto abandonado','2012-06-12',2,'algo 1235',3),(4,'Cambio de baldosas','2014-11-11',3,'algo 1236',1),(5,'lo sque de mi sql','2020-04-20',2,'algo 1237',1),(6,'Lograste sacar datos de SQL','2021-11-18',1,'algo 1238',3);
+INSERT INTO `recla` VALUES (1,'Arbol caido','1996-07-07','ARBOLADO','algo 123',1),(2,'arbol ilegal','2010-04-13','ARBOLADO','algo 1234',3),(3,'auto abandonado','2012-06-12','LIMPIEZA','algo 1235',3),(4,'Cambio de baldosas','2014-11-11','PLUBIAL','algo 1236',1),(5,'lo sque de mi sql','2020-04-20','LIMPIEZA','algo 1237',1),(6,'Lograste sacar datos de SQL','2021-11-18','ARBOLADO','algo 1238',3);
 /*!40000 ALTER TABLE `recla` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `usu`
+--
+
+DROP TABLE IF EXISTS `usu`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `usu` (
+  `idUsuario` int NOT NULL,
+  `usuario` text NOT NULL,
+  `clave` text NOT NULL,
+  `rol` text NOT NULL,
+  PRIMARY KEY (`idUsuario`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `usu`
+--
+
+LOCK TABLES `usu` WRITE;
+/*!40000 ALTER TABLE `usu` DISABLE KEYS */;
+INSERT INTO `usu` VALUES (1,'juampi','1234','0'),(2,'yoshi','mario','1'),(3,'elver','no','0');
+/*!40000 ALTER TABLE `usu` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -54,4 +80,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-10-31 20:36:50
+-- Dump completed on 2022-11-01 11:44:11
