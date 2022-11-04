@@ -71,7 +71,7 @@ public class Modelo {
             stmt = con.createStatement();
             rs = stmt.executeQuery("SELECT * FROM usu");
             
-            while (rs.next()){
+            while (rs.next() && respuesta != true){
                 
                 if ( rs.getString("usuario").equals(nomb) && rs.getString("clave").equals(pass)){
                     respuesta = true;
@@ -88,12 +88,10 @@ public class Modelo {
     }
     
     public Usuario getUsuario(String nomb){
-        
+   
         /*
         Roles: Contributenye = 0; Admin = 1;
-        */
-        
-        Usuario respuesta = null;
+         */
         int id = 0;
         String clave = "";
         int rol = 0;
@@ -103,72 +101,43 @@ public class Modelo {
             stmt = con.createStatement();
             rs = stmt.executeQuery("SELECT * FROM usu WHERE usuario ='" + nomb + "'");
 
-            while (rs.next()) {
+            rs.next() ;
                 id = rs.getInt("idUsuario");
                 clave = rs.getString("clave");
                 rol = rs.getInt("rol");
-            }
+            
             con.close();
         } catch (SQLException e) {
             System.out.println(e);
         }
 
-        switch (rol) {
-            case 0:
-                respuesta = new Contribuyente(id, nomb, clave);
-                break;
-            case 1:
-                respuesta = new Admin(id, nomb, clave);
-                break;
-        }
-
-        return respuesta;
+        return Factory.creaUsu(rol, id, nomb, clave);
 
     }
 
-    
-    public List<Reclamo> getReclamos(Usuario p)
-    { 
+    public List<Reclamo> getReclamos(Usuario p) {
         List<Reclamo> lista = new ArrayList<>();
         int rol = Integer.MAX_VALUE;
-        
-       
-        try{
+
+        try {
             con = DriverManager.getConnection(urlRoot + dbName + "?useSSL=false", "root", "root");
             stmt = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-            rs = stmt.executeQuery("SELECT * FROM usu WHERE idUsuario ='" + p.getId() + "'");
-            
-            while (rs.next()){
-            rol = rs.getInt("rol");
-            }
-            
-            rs = stmt.executeQuery("SELECT * FROM recla");
-            rs.beforeFirst();
-           
-            switch (rol) {
-                case 0:
-                    while (rs.next()) {
-                        if (p.getId() == rs.getInt("usu_idUsuario"))  
-                            lista.add(new Reclamo(rs.getInt("idReclamo"), rs.getString("descripcion"), rs.getDate("fecha"),Categorias.valueOf(rs.getString("categoria")),rs.getString("domicilio")));
-                    }
 
-                    break;
-                case 1:
-                    while (rs.next()) {
-                        lista.add(new Reclamo(rs.getInt("idReclamo"), rs.getString("descripcion"), rs.getDate("fecha"),Categorias.valueOf(rs.getString("categoria")),rs.getString("domicilio")));
-                    }
-                    break;
-                default:
-                    break;
+
+            rs = stmt.executeQuery(p.getLista());
+            rs.beforeFirst();
+
+            while (rs.next()) {
+                lista.add(new Reclamo(rs.getInt("idReclamo"), rs.getString("descripcion"), rs.getDate("fecha"), Categorias.valueOf(rs.getString("categoria")), rs.getString("domicilio")));
             }
 
             con.close();
-        }catch(SQLException e){
+        } catch (SQLException e) {
             System.out.println(e);
-        }  
-    
-    return lista;
-        
+        }
+
+        return lista;
+
     }
 
 

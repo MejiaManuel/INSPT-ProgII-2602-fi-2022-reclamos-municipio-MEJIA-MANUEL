@@ -19,4 +19,9 @@ public class Contribuyente extends Usuario{
         return "/pages/vistaRecContri.jsp";
     }
     
+    @Override
+    public String getLista(){
+        return "SELECT * FROM recla WHERE usu_idUsuario ='" + this.getId() + "'";
+    }
+    
 }

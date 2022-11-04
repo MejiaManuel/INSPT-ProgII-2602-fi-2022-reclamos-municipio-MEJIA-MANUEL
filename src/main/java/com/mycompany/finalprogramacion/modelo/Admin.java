@@ -18,5 +18,11 @@ public class Admin extends Usuario{
         public String getVista(){
             return "/pages/vistaReclamos.jsp";
         }
+
+       @Override
+    public String getLista(){
+        return "SELECT * FROM recla";
+    }
+    
     
 }

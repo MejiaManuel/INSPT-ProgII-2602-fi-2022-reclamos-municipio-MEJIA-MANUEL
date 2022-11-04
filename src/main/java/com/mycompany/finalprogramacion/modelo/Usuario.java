@@ -41,6 +41,10 @@ public abstract class Usuario {
 
     public abstract String getVista();
     
+    public abstract String getLista();
+    
     }
+
+
 
 
