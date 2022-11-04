@@ -89,12 +89,9 @@ public class Modelo {
     
     public Usuario getUsuario(String nomb){
    
-        /*
-        Roles: Contributenye = 0; Admin = 1;
-         */
         int id = 0;
         String clave = "";
-        int rol = 0;
+        String rol = "";
 
         try {
             con = DriverManager.getConnection(urlRoot + dbName + "?useSSL=false", "root", "root");
@@ -104,7 +101,7 @@ public class Modelo {
             rs.next() ;
                 id = rs.getInt("idUsuario");
                 clave = rs.getString("clave");
-                rol = rs.getInt("rol");
+                rol = rs.getString("rol");
             
             con.close();
         } catch (SQLException e) {
@@ -117,7 +114,6 @@ public class Modelo {
 
     public List<Reclamo> getReclamos(Usuario p) {
         List<Reclamo> lista = new ArrayList<>();
-        int rol = Integer.MAX_VALUE;
 
         try {
             con = DriverManager.getConnection(urlRoot + dbName + "?useSSL=false", "root", "root");

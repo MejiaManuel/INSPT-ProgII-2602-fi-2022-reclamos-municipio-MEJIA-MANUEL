@@ -10,15 +10,15 @@ package com.mycompany.finalprogramacion.modelo;
  */
 public class Factory {
     
-    static public Usuario creaUsu(int rol, int id, String nomb, String clave){
+    static public Usuario creaUsu(String rol, int id, String nomb, String clave){
     
     Usuario respuesta = null;
     
            switch (rol) {
-            case 0:
+            case "contribuyente":
                 respuesta = new Contribuyente(id, nomb, clave);
                 break;
-            case 1:
+            case "admin":
                 respuesta = new Admin(id, nomb, clave);
                 break;
         }

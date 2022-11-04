@@ -1,7 +1,9 @@
 com\mycompany\finalprogramacion\Parcial2.class
+com\mycompany\finalprogramacion\modelo\Factory.class
 com\mycompany\finalprogramacion\modelo\Admin.class
 com\mycompany\finalprogramacion\modelo\Reclamo.class
 com\mycompany\finalprogramacion\modelo\Contribuyente.class
 com\mycompany\finalprogramacion\modelo\Usuario.class
 com\mycompany\finalprogramacion\reclamoServlet.class
 com\mycompany\finalprogramacion\modelo\Categorias.class
+com\mycompany\finalprogramacion\modelo\Modelo.class
