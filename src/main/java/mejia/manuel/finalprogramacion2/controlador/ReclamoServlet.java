@@ -2,10 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package com.mycompany.finalprogramacion;
+package mejia.manuel.finalprogramacion2.controlador;
 
-import com.mycompany.finalprogramacion.modelo.Modelo;
-import com.mycompany.finalprogramacion.modelo.Usuario;
+import mejia.manuel.finalprogramacion2.modelo.Modelo;
+import mejia.manuel.finalprogramacion2.modelo.Usuario;
 import jakarta.servlet.RequestDispatcher;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -22,9 +22,9 @@ import java.util.HashSet;
  * @author manue
  */
 @WebServlet(name = "reclamoServlet", urlPatterns = {"/reclamos/all"})
-public class reclamoServlet extends HttpServlet {
+public class ReclamoServlet extends HttpServlet {
 
-public Usuario p;
+private Usuario p;
      
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -36,6 +36,16 @@ public Usuario p;
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
+        
+        Modelo m = new Modelo();
+
+        String user = (String) request.getSession().getAttribute("user");
+
+        p = m.getUsuario(user);
+
+        request.setAttribute("listaReclamos", m.getReclamos(p));
+        request.getRequestDispatcher(p.getVista()).forward(request, response);
+
     }
 
 
@@ -44,10 +54,6 @@ public Usuario p;
             throws ServletException, IOException {
         processRequest(request, response);
 
-        Modelo m = new Modelo();
-
-        request.setAttribute("listaReclamos", m.getReclamos(p));
-        request.getRequestDispatcher(p.getVista()).forward(request, response);
 
     }
 

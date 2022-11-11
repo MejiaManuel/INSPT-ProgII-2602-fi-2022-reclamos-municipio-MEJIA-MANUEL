@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.mycompany.finalprogramacion.modelo;
+package mejia.manuel.finalprogramacion2.modelo;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -20,12 +20,12 @@ import javax.swing.*;
 
 public class Modelo {
         
-    Connection con = null;
-    ResultSet rs = null;
-    Statement stmt = null;
+    private Connection con = null;
+    private ResultSet rs = null;
+    private Statement stmt = null;
     
-    String url= "localhost:3306";
-    String dbName = "tabla";
+    private String url= "localhost:3306";
+    private String dbName = "tabla";
 
     private static final String jdbcDriver = "com.mysql.cj.jdbc.Driver";
     private String urlRoot;

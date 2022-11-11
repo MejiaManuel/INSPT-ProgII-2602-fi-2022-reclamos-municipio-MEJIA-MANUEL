@@ -2,10 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package com.mycompany.finalprogramacion;
+package mejia.manuel.finalprogramacion2.controlador;
 
-import com.mycompany.finalprogramacion.modelo.Modelo;
-import com.mycompany.finalprogramacion.modelo.Usuario;
+import mejia.manuel.finalprogramacion2.modelo.Modelo;
+import mejia.manuel.finalprogramacion2.modelo.Usuario;
 import jakarta.servlet.RequestDispatcher;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -21,9 +21,9 @@ import java.util.HashSet;
  * @author Manu
  */
 @WebServlet(name = "Parcial2", urlPatterns = {"/Parcial2"})
-public class Parcial2 extends HttpServlet {
+public class LoginServlet extends HttpServlet {
 
-    public Usuario p;
+    private Usuario p;
     HttpServletRequest request;
     HttpServletResponse response;
 
@@ -56,13 +56,11 @@ public class Parcial2 extends HttpServlet {
         if (!m.login(user, pass)) {
             response.sendError(response.SC_UNAUTHORIZED, "Usuario o clave incorrectas");
         } else {
-            p = m.getUsuario(user);
 
-            request.setAttribute( "user", user);
-            
-            
-            request.setAttribute("listaReclamos", m.getReclamos(p));
-            request.getRequestDispatcher(p.getVista()).forward(request, response);
+            request.setAttribute("user", user);
+            request.getSession().setAttribute("user", user);
+
+            request.getRequestDispatcher("/pages/reclamos.jsp").forward(request, response);
 
         }
 
