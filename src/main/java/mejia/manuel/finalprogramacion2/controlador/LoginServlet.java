@@ -59,8 +59,13 @@ public class LoginServlet extends HttpServlet {
 
             request.setAttribute("user", user);
             request.getSession().setAttribute("user", user);
-
+            /* //En El caso de que quiera usar una pagina Usuario.
             request.getRequestDispatcher("/pages/reclamos.jsp").forward(request, response);
+            */ 
+            //Directo a mostrar el Cuadro
+            response.sendRedirect(request.getContextPath() + "/reclamos/all");
+            
+            
 
         }
 
