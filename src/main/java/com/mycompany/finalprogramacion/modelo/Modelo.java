@@ -17,14 +17,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.*;
 
-
 public class Modelo {
-        
+
     Connection con = null;
     ResultSet rs = null;
     Statement stmt = null;
-    
-    String url= "localhost:3306";
+
+    String url = "localhost:3306";
     String dbName = "tabla";
 
     private static final String jdbcDriver = "com.mysql.cj.jdbc.Driver";
@@ -34,7 +33,7 @@ public class Modelo {
     //informacion
     //Busquedas
     private ActionListener listener;
-       
+
     public Modelo() {
         urlRoot = getRootUrl(url);
         listener = null;
@@ -46,11 +45,11 @@ public class Modelo {
             reportException(e.getMessage());
         }
     }
-    
+
     private static String getRootUrl(String url) {
         return "jdbc:mysql://" + url + "/";
     }
-    
+
     public static Modelo getInstance() {
         if (m == null) {
             m = new Modelo();
@@ -61,54 +60,87 @@ public class Modelo {
     public Modelo getModelo() {
         return m;
     }
-    
-    public Boolean login(String nomb, String pass){
-    
+
+    public Boolean login(String nomb, String pass) {
+
         Boolean respuesta = false;
-        
-    try{
-            con = DriverManager.getConnection(urlRoot + dbName + "?useSSL=false", "root", "root");
-            stmt = con.createStatement();
-            rs = stmt.executeQuery("SELECT * FROM usu");
-            
-            while (rs.next() && respuesta != true){
-                
-                if ( rs.getString("usuario").equals(nomb) && rs.getString("clave").equals(pass)){
-                    respuesta = true;
-                }
-                
-            }
-            con.close();
-        }catch(SQLException e){
-            System.out.println(e);
-        }  
-        
-        
-        return respuesta;
-    }
-    
-    public Usuario getUsuario(String nomb){
-   
-        int id = 0;
-        String clave = "";
-        String rol = "";
 
         try {
             con = DriverManager.getConnection(urlRoot + dbName + "?useSSL=false", "root", "root");
             stmt = con.createStatement();
-            rs = stmt.executeQuery("SELECT * FROM usu WHERE usuario ='" + nomb + "'");
+            rs = stmt.executeQuery("SELECT * FROM usu");
 
-            rs.next() ;
-                id = rs.getInt("idUsuario");
-                clave = rs.getString("clave");
-                rol = rs.getString("rol");
-            
+            while (rs.next() && respuesta != true) {
+
+                if (rs.getString("usuario").equals(nomb) && rs.getString("clave").equals(pass)) {
+                    respuesta = true;
+                }
+
+            }
             con.close();
         } catch (SQLException e) {
             System.out.println(e);
         }
 
-        return Factory.creaUsu(rol, id, nomb, clave);
+        return respuesta;
+    }
+    
+    public void CreateContribuyente(String usuario, String clave, int dni, String mail, int telefono, String nombre, String apellido) {
+        this.CreateUsuario(usuario, clave, "contribuyente", dni, mail, telefono, nombre, apellido);
+    }
+
+    private void CreateUsuario(String usuario, String clave, String rol, int dni, String mail, int telefono, String nombre, String apellido) {
+        try {
+            con = DriverManager.getConnection(urlRoot + dbName + "?useSSL=false", "root", "root");
+            stmt = con.createStatement();
+            
+            String insert = String.format("INSERT INTO usu (usuario, clave, rol, dni, mail, telefono, nombre, apellido)"
+                    + " VALUES ( '%s' , '%s' , '%s' , '%d' , '%s', '%d', '%s', '%s');", 
+                    usuario, clave, rol, dni, mail, telefono, nombre, apellido );
+                    System.out.println("inserting: " + insert);
+            
+            
+            stmt.execute(insert);
+            
+            
+
+            con.close();
+
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+
+    }
+
+    public Usuario getUsuario(String usuario) {
+
+        Usuario user = null;
+
+        try {
+            con = DriverManager.getConnection(urlRoot + dbName + "?useSSL=false", "root", "root");
+            stmt = con.createStatement();
+            rs = stmt.executeQuery("SELECT * FROM usu WHERE usuario ='" + usuario + "'");
+
+            rs.next();
+            // int id, String usuario, String clave, String rol, int dni, String mail, int telefono, String nombre, String apellido
+
+            user = Factory.creaUsu(rs.getInt("idUsuario"),
+                    rs.getString("usuario"),
+                    rs.getString("clave"),
+                    rs.getString("rol"),
+                    rs.getInt("dni"),
+                    rs.getString("mail"),
+                    rs.getInt("telefono"),
+                    rs.getString("nombre"),
+                    rs.getString("apellido"));
+
+            con.close();
+
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+
+        return user;
 
     }
 
@@ -118,7 +150,6 @@ public class Modelo {
         try {
             con = DriverManager.getConnection(urlRoot + dbName + "?useSSL=false", "root", "root");
             stmt = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-
 
             rs = stmt.executeQuery(p.getLista());
             rs.beforeFirst();
@@ -136,11 +167,7 @@ public class Modelo {
 
     }
 
-
-
-
 // excepciones
-
     // excepcion 
     private void reportException(String exception) {
         if (listener != null) {
@@ -154,6 +181,3 @@ public class Modelo {
     }
 
 }
-
-    
-

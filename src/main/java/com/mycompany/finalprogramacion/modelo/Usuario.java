@@ -9,42 +9,48 @@ package com.mycompany.finalprogramacion.modelo;
  * @author Manu
  */
 public abstract class Usuario {
-    
+
     private int id;
-    private final String nomb;
+    private final String usuario;
     private final String clave;
+    private final String rol;
+    private final int dni;
+    private final String mail;
+    private final int telefono;
+    private final String nombre;
+    private final String apellido;
 
-
-    public Usuario(int id, String nomb, String clave) {
+  public Usuario(int id, String usuario, String clave, String rol, int dni, String mail, int telefono, String nombre, String apellido) {
         this.id = id;
-        this.nomb = nomb;
+        this.usuario = usuario;
+        this.clave = clave;
+        this.rol = rol;
+        this.dni = dni;
+        this.mail = mail;
+        this.telefono = telefono;
+        this.nombre = nombre;
+        this.apellido = apellido;
+    }
+/*
+    public Usuario(String usuario, String clave) {
+        this.usuario = usuario;
         this.clave = clave;
     }
-
-    public Usuario(String nomb, String clave) {
-        this.nomb = nomb;
-        this.clave = clave;
-    }
- 
-
+*/
     public int getId() {
-        return id;
+        return this.id;
     }
 
-    public String getNomb() {
-        return nomb;
+    public String getUsuario() {
+        return this.usuario;
     }
 
     public String getClave() {
-        return clave;
+        return this.clave;
     }
 
     public abstract String getVista();
-    
+
     public abstract String getLista();
-    
-    }
 
-
-
-
+}

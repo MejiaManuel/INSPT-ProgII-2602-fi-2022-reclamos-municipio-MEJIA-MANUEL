@@ -20,6 +20,7 @@
             <input type="submit">
             <input type="reset">
         </form>
+    <a href="./pages/CrearUsuario.jsp">O crear usuario</a>
     
 </body>
 </html>

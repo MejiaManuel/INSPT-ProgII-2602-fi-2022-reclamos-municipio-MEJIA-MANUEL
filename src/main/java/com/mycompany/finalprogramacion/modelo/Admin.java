@@ -10,8 +10,8 @@ package com.mycompany.finalprogramacion.modelo;
  */
 public class Admin extends Usuario{
 
-    public Admin(int id, String nomb, String clave) {
-        super(id, nomb, clave);
+    public Admin(int id, String usuario, String clave, String rol, int dni, String mail, int telefono, String nombre, String apellido) {
+        super(id, usuario, clave, rol, dni, mail, telefono, nombre, apellido);
     }
     
     @Override

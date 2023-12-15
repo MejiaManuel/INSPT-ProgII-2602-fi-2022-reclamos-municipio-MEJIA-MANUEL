@@ -8,20 +8,21 @@ package com.mycompany.finalprogramacion.modelo;
  *
  * @author manue
  */
-public class Contribuyente extends Usuario{
+public class Contribuyente extends Usuario {
+    
 
-    public Contribuyente(int id, String nomb, String clave) {
-        super(id, nomb, clave);
+    public Contribuyente(int id, String usuario, String clave, String rol, int dni, String mail, int telefono, String nombre, String apellido) {
+        super(id, usuario, clave, rol, dni, mail, telefono, nombre, apellido);
     }
-        
+
     @Override
-    public String getVista(){
+    public String getVista() {
         return "/pages/vistaRecContri.jsp";
     }
-    
+
     @Override
-    public String getLista(){
+    public String getLista() {
         return "SELECT * FROM recla WHERE usu_idUsuario ='" + this.getId() + "'";
     }
-    
+
 }
