@@ -4,6 +4,8 @@
  */
 package com.mycompany.finalprogramacion.modelo;
 
+import java.sql.Date;
+
 /**
  *
  * @author Manu
@@ -23,7 +25,10 @@ public class Factory {
                 break;
         }
 
+           
     return respuesta;
 }
+    
+
     
 }

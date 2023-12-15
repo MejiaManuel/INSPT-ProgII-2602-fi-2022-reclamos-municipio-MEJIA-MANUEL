@@ -40,14 +40,7 @@ public class registroUsuario extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         //usuario, clave, rol, dni, mail, telefono, nombre, apellido
-        request.getParameter("usuario");
-        request.getParameter("clave");
-        request.getParameter("dni");
-        request.getParameter("mail");
-        request.getParameter("telefono");
-        request.getParameter("nombre");
-        request.getParameter("apellido");
-        
+    
         Modelo m = new Modelo();
         
         m.CreateContribuyente(request.getParameter("usuario"),
@@ -57,8 +50,6 @@ public class registroUsuario extends HttpServlet {
         Integer.valueOf(request.getParameter("telefono")),
         request.getParameter("nombre"),
         request.getParameter("apellido"));
-        
-        
         
         processRequest(request, response);
         

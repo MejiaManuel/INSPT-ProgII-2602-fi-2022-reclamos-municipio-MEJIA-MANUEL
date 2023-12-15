@@ -20,17 +20,16 @@ public class Reclamo {
     private Date fecha;
     private Categorias categoria;
     private String domicilio;
+    private Date fechaFinalizacion;
 
-    public Reclamo(int id, String descripcion, Date fecha, Categorias categoria, String domicilio) {
+    public Reclamo(int id, String descripcion, Date fecha, Categorias categoria, String domicilio, Date fechaFinalizacion) {
         this.id = id;
         this.descripcion = descripcion;
         this.fecha = fecha;
+        this.categoria = categoria;
         this.domicilio = domicilio;
-        this.categoria = categoria;    
-    
+        this.fechaFinalizacion = fechaFinalizacion;
     }
-
-  
 
     
     public Categorias getCategoria() {

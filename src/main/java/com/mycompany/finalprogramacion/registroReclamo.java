@@ -4,9 +4,11 @@
  */
 package com.mycompany.finalprogramacion;
 
+import com.mycompany.finalprogramacion.modelo.Categorias;
 import com.mycompany.finalprogramacion.modelo.Modelo;
 import com.mycompany.finalprogramacion.modelo.Usuario;
-import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -14,63 +16,63 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.HashSet;
+
 
 /**
  *
  * @author Manu
  */
-@WebServlet(name = "Parcial2", urlPatterns = {"/Parcial2"})
-public class Parcial2 extends HttpServlet {
+@WebServlet(name = "registroReclamo", urlPatterns = {"/registroReclamo"})
+public class registroReclamo extends HttpServlet {
 
-    public Usuario p;
-    HttpServletRequest request;
-    HttpServletResponse response;
-
+    Usuario p;
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-
     }
+
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
-
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-        this.request = request;
-        this.response = response;
-
+ 
+        
         Modelo m = new Modelo();
-
-        String user = request.getParameter("user");
-        String pass = request.getParameter("pass");
-
-        if (!m.login(user, pass)) {
-            response.sendError(response.SC_UNAUTHORIZED, "Usuario o clave incorrectas");
-        } else {
-            p = m.getUsuario(user);
-
-            request.setAttribute( "user", user);
-            request.setAttribute( "id", p.getId());
-            
-            request.setAttribute("listaReclamos", m.getReclamos(p));
-            request.getRequestDispatcher(p.getVista()).forward(request, response);
-
-        }
-
+        
+        
+        // cree el reclamo
+        
+        m.createReclamo(request.getParameter("descripcion"),
+        Categorias.getCategoriaByNumber(Integer.valueOf(request.getParameter("categoria"))),
+        request.getParameter("domicilio"),
+        Integer.valueOf(request.getParameter("id")));
+        
+        
+        // volvemos a mostrar la pagina
+        
+        p = m.getUsuarioById(Integer.valueOf(request.getParameter("id")));
+        
+        request.setAttribute( "user", p.getUsuario());
+        request.setAttribute( "id", p.getId());
+        
+        request.setAttribute("listaReclamos", m.getReclamos(p));
+        
+        processRequest(request, response);
+        
+        request.getRequestDispatcher(p.getVista()).forward(request, response);
     }
+
 
     @Override
     public String getServletInfo() {
         return "Short description";
-    }// </editor-fold>
+    }
 
 }

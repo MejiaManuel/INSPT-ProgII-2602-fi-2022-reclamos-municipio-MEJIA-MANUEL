@@ -12,13 +12,28 @@ import java.util.Map;
  * @author Manu
  */
 public enum Categorias {
+    ALUMBRADO(1),
+    ARBOLADO(2),
+    LIMPIEZA(3),
+    PLUVIAL(4);
+
+    private final int categoriaNumber;
+
+    Categorias(int categoriaNumber) {
+        this.categoriaNumber = categoriaNumber;
+    }
+
+    public int getCategoriaNumber() {
+        return categoriaNumber;
+    }
     
-     ALUMBRADO,
-     ARBOLADO,
-     LIMPIEZA,
-     PLUBIAL;
-
-     
-
-
+    public static Categorias getCategoriaByNumber(int number) {
+        for (Categorias categoria : values()) {
+            if (categoria.getCategoriaNumber() == number) {
+                return categoria;
+            }
+        }
+        throw new IllegalArgumentException("Invalid categoria number: " + number);
+    }
+    
 }

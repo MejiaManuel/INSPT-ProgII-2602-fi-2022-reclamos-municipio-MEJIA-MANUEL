@@ -7,14 +7,19 @@ package com.mycompany.finalprogramacion.modelo;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.awt.event.ActionEvent;
+import java.time.LocalDateTime;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.Statement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import javax.swing.*;
 
 public class Modelo {
@@ -84,7 +89,7 @@ public class Modelo {
 
         return respuesta;
     }
-    
+
     public void CreateContribuyente(String usuario, String clave, int dni, String mail, int telefono, String nombre, String apellido) {
         this.CreateUsuario(usuario, clave, "contribuyente", dni, mail, telefono, nombre, apellido);
     }
@@ -93,22 +98,68 @@ public class Modelo {
         try {
             con = DriverManager.getConnection(urlRoot + dbName + "?useSSL=false", "root", "root");
             stmt = con.createStatement();
-            
+
             String insert = String.format("INSERT INTO usu (usuario, clave, rol, dni, mail, telefono, nombre, apellido)"
-                    + " VALUES ( '%s' , '%s' , '%s' , '%d' , '%s', '%d', '%s', '%s');", 
-                    usuario, clave, rol, dni, mail, telefono, nombre, apellido );
-                    System.out.println("inserting: " + insert);
-            
-            
+                    + " VALUES ( '%s' , '%s' , '%s' , '%d' , '%s', '%d', '%s', '%s');",
+                    usuario, clave, rol, dni, mail, telefono, nombre, apellido);
+            System.out.println("inserting: " + insert);
+
             stmt.execute(insert);
-            
-            
 
             con.close();
 
         } catch (SQLException e) {
             System.out.println(e);
         }
+    }
+
+    public void createReclamo(String descripcion, Categorias categoria, String domicilio, int usuario) {
+        try {
+            con = DriverManager.getConnection(urlRoot + dbName + "?useSSL=false", "root", "root");
+            stmt = con.createStatement();
+
+            String insert = String.format("INSERT INTO recla (descripcion, fecha, categoria, domicilio, usu_idUsuario)"
+                    + " VALUES ( '%s' , CURDATE() , '%s', '%s', '%d');",
+                    descripcion, categoria.toString(), domicilio, usuario);
+            System.out.println("inserting: " + insert);
+
+            stmt.execute(insert);
+
+            con.close();
+
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+
+    }
+
+    public Usuario getUsuarioById(int id) {
+        Usuario user = null;
+        try {
+            con = DriverManager.getConnection(urlRoot + dbName + "?useSSL=false", "root", "root");
+            stmt = con.createStatement();
+            rs = stmt.executeQuery("SELECT * FROM usu WHERE idUsuario ='" + id + "'");
+
+            rs.next();
+            // int id, String usuario, String clave, String rol, int dni, String mail, int telefono, String nombre, String apellido
+
+            user = Factory.creaUsu(rs.getInt("idUsuario"),
+                    rs.getString("usuario"),
+                    rs.getString("clave"),
+                    rs.getString("rol"),
+                    rs.getInt("dni"),
+                    rs.getString("mail"),
+                    rs.getInt("telefono"),
+                    rs.getString("nombre"),
+                    rs.getString("apellido"));
+            
+            con.close();
+
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+
+        return user;
 
     }
 
@@ -155,7 +206,8 @@ public class Modelo {
             rs.beforeFirst();
 
             while (rs.next()) {
-                lista.add(new Reclamo(rs.getInt("idReclamo"), rs.getString("descripcion"), rs.getDate("fecha"), Categorias.valueOf(rs.getString("categoria")), rs.getString("domicilio")));
+                lista.add(new Reclamo(rs.getInt("idReclamo"), rs.getString("descripcion"), rs.getDate("fecha"),
+                        Categorias.valueOf(rs.getString("categoria")), rs.getString("domicilio"), rs.getDate("fecha_finalizacion")));
             }
 
             con.close();
